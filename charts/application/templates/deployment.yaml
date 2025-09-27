@@ -1,0 +1,84 @@
+{{- if .Values.app.enabled }}
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.app.name }}-sec
+type: Opaque
+data:
+  mongo_url: {{ .Values.databases.mongodb_url | b64enc | quote }}
+  neo4j_url: {{ .Values.databases.neo4j_url | b64enc | quote }}
+  neo4j_username: {{ .Values.databases.neo4j_username | b64enc | quote }}
+  neo4j_password: {{ .Values.databases.neo4j_password | b64enc | quote }}
+  firebase_url: {{ .Values.databases.firebase_url | b64enc | quote }}
+  firebase_path: {{ .Values.databases.firebase_path | b64enc | quote }}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}-dp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}-dp
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}-dp
+    spec:
+      containers:
+        - name: {{ .Values.app.name }}
+          image: {{ .Values.app.image }}
+          ports:
+            - containerPort: {{ .Values.app.local_port }}
+          resources:
+            limits:
+              cpu: {{ .Values.app.cpu_limit }}
+              memory: {{ .Values.app.memory_limit }}
+            requests:
+              cpu: {{ .Values.app.cpu }}
+              memory: {{ .Values.app.memory }}
+          command: ["flask", "run", "--host=0.0.0.0", "--port=5000"]
+          env:
+            - name: 'MONGO_URL'
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-sec
+                  key: mongo_url
+              
+            - name: 'NEO4J_URL'
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-sec
+                  key: neo4j_url
+
+            - name: 'NEO4J_USERNAME'
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-sec
+                  key: neo4j_username
+
+            - name: 'NEO4J_PASSWORD'
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-sec
+                  key: neo4j_password
+
+            - name: 'FIREBASE_URL'
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-sec
+                  key: firebase_url
+
+            - name: 'FIREBASE_PATH'
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.app.name }}-sec
+                  key: firebase_path
+
+            - name: 'PORT'
+              value: "{{ toString .Values.app.local_port }}"
+
+{{- end }}

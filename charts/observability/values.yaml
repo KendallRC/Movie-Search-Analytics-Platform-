@@ -1,0 +1,20 @@
+observability:
+  username: IC4302
+  password: dev
+  memory: 500Mi
+  limit_memory: 1Gi
+  cpu: 0.1
+  limit_cpu: 0.4
+  replics: 1
+
+prometheus:
+  enabled: true
+  name: prometheus
+  image: favargasc/prometheus
+  http_port: 9090
+
+grafana:
+  enabled: true
+  name: grafana
+  image: grafana/grafana:latest
+  http_port: 3000

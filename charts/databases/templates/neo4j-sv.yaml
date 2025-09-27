@@ -1,0 +1,19 @@
+{{- if .Values.neo4j.enabled }}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.neo4j.name }}-sv
+spec:
+  ports:
+  - protocol: TCP
+    port: {{ .Values.neo4j.http_port }}
+    targetPort: {{ .Values.neo4j.http_port }}
+    name: http
+    nodePort: {{ .Values.neo4j.node_port }}
+  type: NodePort
+
+  selector:
+    app: {{ .Values.neo4j.name }}-dp
+    
+{{- end }}

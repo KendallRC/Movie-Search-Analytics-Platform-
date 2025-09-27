@@ -1,0 +1,32 @@
+
+{{- if .Values.prometheus.enabled }}
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.prometheus.name }}-dp
+  labels:
+    app: {{ .Values.prometheus.name }}-dp
+spec:
+  replicas: {{ .Values.observability.replics }}
+  selector:
+    matchLabels:
+      app: {{ .Values.prometheus.name }}-dp
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.prometheus.name }}-dp
+    spec:
+      containers:
+        - name: {{ .Values.prometheus.name }}
+          image: {{ .Values.prometheus.image }}
+          ports:
+            - containerPort: {{ .Values.prometheus.http_port }}
+          resources:
+            requests:
+              cpu: {{ .Values.observability.cpu }}
+              memory: {{ .Values.observability.memory }}
+            limits:
+              cpu: {{ .Values.observability.cpu }}
+              memory: {{ .Values.observability.limit_memory }}
+{{- end }}

@@ -1,0 +1,53 @@
+{{- if .Values.grafana.enabled }}
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.grafana.name }}-sec
+type: Opaque
+data:
+  username: {{ .Values.observability.username | b64enc | quote }}
+  password: {{ .Values.observability.password | b64enc | quote }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.grafana.name }}-dp
+  labels:
+    app: {{ .Values.grafana.name }}-dp
+spec:
+  replicas: {{ .Values.observability.replics }}
+  selector:
+    matchLabels:
+      app: {{ .Values.grafana.name }}-dp
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.grafana.name }}-dp
+    spec:
+      containers:
+        - name: {{ .Values.grafana.name }}
+          image: {{ .Values.grafana.image }}
+          ports:
+            - containerPort: {{ .Values.grafana.http_port }}
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.grafana.name }}-sec
+                  key: username            
+
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.grafana.name }}-sec
+                  key: password
+                  
+          resources:
+            requests:
+              cpu: {{ .Values.observability.cpu }}
+              memory: {{ .Values.observability.memory }}
+            limits:
+              cpu: {{ .Values.observability.limit_cpu }}
+              memory: {{ .Values.observability.limit_memory }}
+{{- end }}

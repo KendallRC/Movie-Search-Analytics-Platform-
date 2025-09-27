@@ -1,0 +1,15 @@
+{{- if .Values.prometheus.enabled }}
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.prometheus.name }}-sv
+spec:
+  selector:
+    app: {{ .Values.prometheus.name }}-dp
+  ports:
+    - protocol: TCP
+      port: {{ .Values.prometheus.http_port }}
+      targetPort: {{ .Values.prometheus.http_port }}
+      
+{{- end }}

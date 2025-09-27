@@ -1,0 +1,14 @@
+databases:
+  replics: 1
+  username: 'ne4j'
+  password: 'neo4j'
+  database: 'ne4j'
+
+neo4j:
+  enabled: true
+  name: 'neo4j'
+  image: 'bitnami/neo4j:4.4.33'
+  http_port: 7474
+  https_port: 7473
+  bolt_port: 7687
+  node_port: 30001

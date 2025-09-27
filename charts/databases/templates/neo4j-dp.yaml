@@ -1,0 +1,49 @@
+{{- if .Values.neo4j.enabled }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.neo4j.name }}-sec
+type: Opaque
+data:
+  username: {{ .Values.databases.username | b64enc | quote }}
+  password: {{ .Values.databases.password | b64enc | quote }}
+  database: {{ .Values.databases.database | b64enc | quote }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.neo4j.name }}-dp
+  labels:
+    neo4j: {{ .Values.neo4j.name }}-dp
+spec:
+  replicas: {{ .Values.databases.replics }}
+  selector:
+    matchLabels:
+      app: {{ .Values.neo4j.name }}-dp
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.neo4j.name }}-dp
+    spec:
+      containers:
+        - name: {{ .Values.neo4j.name }}
+          image: {{ .Values.neo4j.image }}
+          ports:
+            - containerPort: {{ .Values.neo4j.bolt_port }}
+            - containerPort: {{ .Values.neo4j.http_port }}
+            - containerPort: {{ .Values.neo4j.https_port }}
+
+          env:
+            - name: NEO4J_DAEMON_USER
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.neo4j.name }}-sec
+                  key: username
+
+            - name: NEO4J_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.neo4j.name }}-sec
+                  key: password
+
+{{- end }}

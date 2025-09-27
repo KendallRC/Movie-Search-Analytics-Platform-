@@ -1,0 +1,19 @@
+app:
+  enabled: true
+  name: app
+  image: 'manuelcalero27/api'
+  cpu: 0.5
+  cpu_limit: 1
+
+  memory: 250Mi
+  memory_limit: 500Mi
+
+  local_port: 5000
+  
+databases:
+  mongodb_url: mongodb+srv://kendall:1234@cluster0.qw1evub.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+  neo4j_url: neo4j+s://demo.neo4jlabs.com:7687
+  neo4j_username: movies
+  neo4j_password: movies
+  firebase_path: ./app-mobile-6a371-firebase-adminsdk-tval3-cf0415f917.json
+  firebase_url: https://app-mobile-6a371-default-rtdb.firebaseio.com
