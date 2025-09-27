@@ -1,41 +1,41 @@
 # Movie Search & Analytics Platform
 
-## Overview
-A web-based platform simulating a mobile interface that allows users to search and explore movies using MongoDB Atlas (document) and Neo4J (graph) databases. The platform provides detailed information about movies and relational queries based on actors and directors. The backend is a Python REST API built with Flask, and the platform uses Firebase for authentication. The system is deployed with Docker, Kubernetes, and Helm Charts, and is monitored with Prometheus and Grafana.
+## Descripción General
+Una plataforma web que simula una interfaz móvil y permite a los usuarios buscar y explorar películas utilizando las bases de datos MongoDB Atlas (documentos) y Neo4J (grafos). La plataforma proporciona información detallada de películas y consultas relacionales basadas en actores y directores. El backend es una API REST en Python desarrollada con Flask, y el sistema usa Firebase para la autenticación. La solución está desplegada con Docker, Kubernetes y Helm Charts, y es monitoreada con Prometheus y Grafana.
 
-## Features
-- Search movies across MongoDB Atlas and Neo4J databases by title, cast, plot, and directors.  
-- Display detailed movie information and relational data (actors/directors).  
-- User authentication and authorization via Firebase.  
-- Logging of all API requests in MongoDB for analytics (includes request body, timestamp, and user).  
-- Microservices architecture deployed on Kubernetes with Docker containers.  
-- Real-time monitoring with Prometheus metrics and Grafana dashboards (request count and response time).  
+## Funcionalidades
+- Búsqueda de películas en MongoDB Atlas y Neo4J por título, reparto, trama y directores.  
+- Visualización de información detallada de películas y datos relacionales (actores/directores).  
+- Autenticación y autorización de usuarios mediante Firebase.  
+- Registro de todas las solicitudes a la API en MongoDB para análisis (incluye cuerpo de la solicitud, marca de tiempo y usuario).  
+- Arquitectura de microservicios desplegada en Kubernetes con contenedores Docker.  
+- Monitoreo en tiempo real con métricas de Prometheus y tableros de Grafana (conteo de solicitudes y tiempo de respuesta).  
 
-## Technologies
-- Programming Languages & Frameworks: Python, Flask  
-- Databases: MongoDB Atlas (document), Neo4J (graph)  
-- DevOps & Deployment: Docker, Kubernetes, Helm Charts  
-- Monitoring: Prometheus, Grafana  
-- Authentication: Firebase  
-- Other: Ngrok for exposing local API endpoints externally  
+## Tecnologías
+- Lenguajes y Frameworks: Python, Flask  
+- Bases de Datos: MongoDB Atlas (documentos), Neo4J (grafos)  
+- DevOps & Despliegue: Docker, Kubernetes, Helm Charts  
+- Monitoreo: Prometheus, Grafana  
+- Autenticación: Firebase  
+- Otros: Ngrok para exponer endpoints de la API localmente  
 
-## Architecture
-1. Python REST API  
-   - Handles requests from the web-based interface  
-   - Communicates with both MongoDB and Neo4J  
-   - Authenticates users with Firebase  
-   - Logs requests in MongoDB for analytics  
+## Arquitectura
+1. **API REST en Python**  
+   - Maneja las solicitudes de la interfaz web  
+   - Se comunica con MongoDB y Neo4J  
+   - Autentica usuarios con Firebase  
+   - Registra solicitudes en MongoDB para análisis  
 
-2. Databases  
-   - MongoDB Atlas: stores movie data in document format  
-   - Neo4J: stores relational data about actors and directors  
+2. **Bases de Datos**  
+   - MongoDB Atlas: almacena datos de películas en formato documento  
+   - Neo4J: almacena datos relacionales de actores y directores  
 
-3. Web Interface  
-   - Simulates a mobile app interface  
-   - Sends queries to API and displays movie information  
+3. **Interfaz Web**  
+   - Simula la experiencia de una aplicación móvil  
+   - Envía consultas a la API y muestra la información de las películas  
 
-4. Deployment & Monitoring  
-   - Docker containers orchestrated with Kubernetes  
-   - Microservices architecture for scalability and resilience  
-   - Prometheus monitors API endpoints and MongoDB metrics  
-   - Grafana dashboards display request counts and response times  
+4. **Despliegue y Monitoreo**  
+   - Contenedores Docker orquestados con Kubernetes  
+   - Arquitectura de microservicios para escalabilidad y resiliencia  
+   - Prometheus monitorea los endpoints de la API y métricas de MongoDB  
+   - Grafana visualiza métricas como número de solicitudes y tiempos de respuesta  
